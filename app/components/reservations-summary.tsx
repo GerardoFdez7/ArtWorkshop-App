@@ -6,18 +6,19 @@ import { Badge } from "@components/ui/badge"
 import { Input } from "@components/ui/input"
 import { useState } from "react"
 import { Search } from "lucide-react"
-import { mockSummaryView } from "@lib/mock-data"
-import type { ReservationStatus } from "@lib/types"
+import { ReservationStatus } from "@lib/types"
+import { useReservations } from "@hooks/useReservations"
 
 export function ReservationsSummary() {
   const [searchTerm, setSearchTerm] = useState("")
+  const { reservations, isLoading, error } = useReservations();
 
-  const filteredSummary = mockSummaryView.filter(
+  const filteredSummary = reservations.filter(
     (item) =>
-      item.userFullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.userEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.workshopTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.instructorFullName.toLowerCase().includes(searchTerm.toLowerCase()),
+      item.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.workshop.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.instructor.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   const getStatusBadge = (status: ReservationStatus) => {
@@ -43,6 +44,34 @@ export function ReservationsSummary() {
       default:
         return <Badge variant="outline">{status}</Badge>
     }
+  }
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Reservations Summary</CardTitle>
+          <CardDescription>View detailed information about workshop reservations</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-center py-6">Loading reservations...</p>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (error) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Reservations Summary</CardTitle>
+          <CardDescription>View detailed information about workshop reservations</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-center py-6 text-red-600">Error: {error}</p>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
@@ -77,19 +106,19 @@ export function ReservationsSummary() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredSummary.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{item.userFullName}</TableCell>
-                  <TableCell>{item.userEmail}</TableCell>
-                  <TableCell>{item.workshopTitle}</TableCell>
-                  <TableCell>{new Date(item.reservation_date).toLocaleDateString()}</TableCell>
+              {filteredSummary.map((item) => (
+                <TableRow key={item.reservation_id}>
+                  <TableCell className="font-medium">{item.user}</TableCell>
+                  <TableCell>{item.email}</TableCell>
+                  <TableCell>{item.workshop}</TableCell>
+                  <TableCell>{new Date(item.date).toLocaleDateString()}</TableCell>
                   <TableCell>{getStatusBadge(item.status)}</TableCell>
                   <TableCell>{item.attended ? "Yes" : "No"}</TableCell>
-                  <TableCell>{item.duration_minutes} min</TableCell>
-                  <TableCell>{item.instructorFullName}</TableCell>
+                  <TableCell>{item.duration} min</TableCell>
+                  <TableCell>{item.instructor}</TableCell>
                 </TableRow>
               ))}
-              {filteredSummary.length === 0 && (
+              {filteredSummary.length === 0 && !isLoading && (
                 <TableRow>
                   <TableCell colSpan={8} className="text-center py-6 text-muted-foreground">
                     No results found. Try adjusting your search.

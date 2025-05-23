@@ -11,7 +11,7 @@ export default function WorkshopManager() {
       <Tabs defaultValue="summary" className="w-full">
         <TabsList className="grid w-full max-w-md grid-cols-2">
           <TabsTrigger value="summary">Summary View</TabsTrigger>
-          <TabsTrigger value="reservations">Reservations</TabsTrigger>
+          <TabsTrigger value="reservations">Management</TabsTrigger>
         </TabsList>
         <TabsContent value="summary" className="mt-6">
           <ReservationsSummary />
