@@ -22,3 +22,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Error creating reservation', details: error }, { status: 500 })
   }
 }
+
+export async function GET() {
+  try {
+    const result = await prisma.$queryRaw`
+      SELECT * FROM reservation_summary
+    `
+    return NextResponse.json(result)
+  } catch (error) {
+    console.error('Error fetching reservation summary:', error)
+    return NextResponse.json({ error: 'Error loading reservation summary' }, { status: 500 })
+  }
+}
