@@ -1,0 +1,112 @@
+-- Insert Users
+INSERT INTO "User" (full_name, email, phone)
+VALUES 
+  ('Alice Johnson', 'alice1@example.com', '1234567890'),
+  ('Bob Smith', 'bob2@example.com', '2345678901'),
+  ('Charlie Brown', 'charlie3@example.com', '3456789012'),
+  ('Diana Prince', 'diana4@example.com', '4567890123'),
+  ('Ethan Hunt', 'ethan5@example.com', '5678901234'),
+  ('Fiona Gallagher', 'fiona6@example.com', '6789012345'),
+  ('George Lucas', 'george7@example.com', '7890123456'),
+  ('Hannah Montana', 'hannah8@example.com', '8901234567'),
+  ('Ivan Drago', 'ivan9@example.com', '9012345678'),
+  ('Jane Doe', 'jane10@example.com', '0123456789'),
+  ('Kyle Reese', 'kyle11@example.com', '1111111111'),
+  ('Lara Croft', 'lara12@example.com', '2222222222'),
+  ('Mark Twain', 'mark13@example.com', '3333333333'),
+  ('Nina Simone', 'nina14@example.com', '4444444444'),
+  ('Oscar Wilde', 'oscar15@example.com', '5555555555'),
+  ('Paul Atreides', 'paul16@example.com', '6666666666'),
+  ('Quinn Fabray', 'quinn17@example.com', '7777777777'),
+  ('Ron Weasley', 'ron18@example.com', '8888888888'),
+  ('Sarah Connor', 'sarah19@example.com', '9999999999'),
+  ('Tom Riddle', 'tom20@example.com', '0000000000'),
+  ('Uma Thurman', 'uma21@example.com', '1212121212'),
+  ('Victor Hugo', 'victor22@example.com', '2323232323'),
+  ('Wanda Maximoff', 'wanda23@example.com', '3434343434'),
+  ('Xander Cage', 'xander24@example.com', '4545454545'),
+  ('Yara Greyjoy', 'yara25@example.com', '5656565656'),
+  ('Zack Snyder', 'zack26@example.com', '6767676767'),
+  ('Ava Green', 'ava27@example.com', '7878787878'),
+  ('Ben Affleck', 'ben28@example.com', '8989898989'),
+  ('Clara Oswald', 'clara29@example.com', '9090909090'),
+  ('Derek Shepherd', 'derek30@example.com', '1010101010');
+
+-- Insert Instructors
+INSERT INTO "Instructor" (full_name, bio, email, phone)
+VALUES
+  ('Prof. Xavier', 'Specialist in leadership', 'xavier1@institute.com', '1111110001'),
+  ('Dr. Octopus', 'Robotics expert', 'octopus2@institute.com', '2222220002'),
+  ('Dr. Strange', 'Mystic arts teacher', 'strange3@institute.com', '3333330003'),
+  ('Tony Stark', 'Engineering genius', 'tony4@institute.com', '4444440004'),
+  ('Bruce Banner', 'Radiation specialist', 'banner5@institute.com', '5555550005'),
+  ('Natasha Romanoff', 'Espionage mentor', 'natasha6@institute.com', '6666660006'),
+  ('Steve Rogers', 'Leadership and ethics', 'steve7@institute.com', '7777770007'),
+  ('Wade Wilson', 'Combat instructor', 'wade8@institute.com', '8888880008'),
+  ('Stephen Hawking', 'Theoretical physics', 'hawking9@institute.com', '9999990009'),
+  ('Ada Lovelace', 'Computational math', 'ada10@institute.com', '1010100010'),
+  ('Alan Turing', 'Computer science pioneer', 'turing11@institute.com', '1212120011'),
+  ('Marie Curie', 'Radioactivity', 'marie12@institute.com', '1313130012'),
+  ('Grace Hopper', 'Software engineering', 'grace13@institute.com', '1414140013'),
+  ('Niels Bohr', 'Quantum mechanics', 'bohr14@institute.com', '1515150014'),
+  ('Isaac Newton', 'Classical physics', 'newton15@institute.com', '1616160015'),
+  ('Galileo Galilei', 'Astronomy', 'galileo16@institute.com', '1717170016'),
+  ('Albert Einstein', 'Relativity', 'einstein17@institute.com', '1818180017'),
+  ('Katherine Johnson', 'Trajectory expert', 'johnson18@institute.com', '1919190018'),
+  ('Carl Sagan', 'Cosmology', 'sagan19@institute.com', '2020200019'),
+  ('Richard Feynman', 'Quantum electrodynamics', 'feynman20@institute.com', '2121210020'),
+  ('Nikola Tesla', 'Electricity', 'tesla21@institute.com', '2222220021'),
+  ('Elon Musk', 'Innovator', 'elon22@institute.com', '2323230022'),
+  ('Bill Gates', 'Technology and philanthropy', 'bill23@institute.com', '2424240023'),
+  ('Tim Berners-Lee', 'Web inventor', 'tim24@institute.com', '2525250024'),
+  ('Sheryl Sandberg', 'Leadership in tech', 'sheryl25@institute.com', '2626260025'),
+  ('Satya Nadella', 'Business strategy', 'satya26@institute.com', '2727270026'),
+  ('Jeff Bezos', 'Entrepreneurship', 'jeff27@institute.com', '2828280027'),
+  ('Mark Zuckerberg', 'Social media', 'mark28@institute.com', '2929290028'),
+  ('Sundar Pichai', 'Cloud computing', 'sundar29@institute.com', '3030300029'),
+  ('Larry Page', 'Search engines', 'larry30@institute.com', '3131310030');
+
+-- Insert Workshops
+INSERT INTO "Workshop" (title, description, date, duration_minutes, capacity, instructor_id)
+VALUES
+  ('AI Basics', 'Intro to AI and ML', '2025-06-01', 120, 25, 1),
+  ('Web Development', 'Modern web stack', '2025-06-02', 180, 30, 2),
+  ('Cybersecurity', 'Protect your data', '2025-06-03', 90, 20, 3),
+  ('Robotics 101', 'Getting started with bots', '2025-06-04', 150, 18, 4),
+  ('Quantum Physics', 'For beginners', '2025-06-05', 120, 15, 5),
+  ('Ethical Hacking', 'Hacking with permission', '2025-06-06', 180, 22, 6),
+  ('Data Science', 'Numbers tell stories', '2025-06-07', 160, 28, 7),
+  ('Astronomy Night', 'Exploring the universe', '2025-06-08', 120, 35, 8),
+  ('Mobile Apps', 'Building for Android/iOS', '2025-06-09', 200, 25, 9),
+  ('Game Dev', 'Design and programming', '2025-06-10', 240, 30, 10),
+  ('Digital Marketing', 'Ads and SEO', '2025-06-11', 90, 40, 11),
+  ('Blockchain Basics', 'Crypto and chains', '2025-06-12', 150, 18, 12),
+  ('Python Workshop', 'Learn Python fast', '2025-06-13', 120, 30, 13),
+  ('Agile Methodology', 'SCRUM and sprints', '2025-06-14', 100, 20, 14),
+  ('UX/UI Design', 'Design for users', '2025-06-15', 180, 22, 15),
+  ('AI Advanced', 'Neural nets & DL', '2025-06-16', 160, 25, 16),
+  ('Serverless Apps', 'Functions and APIs', '2025-06-17', 140, 30, 17),
+  ('Startup 101', 'How to launch', '2025-06-18', 180, 26, 18),
+  ('Public Speaking', 'Presentation skills', '2025-06-19', 90, 18, 19),
+  ('Photography', 'Capture the moment', '2025-06-20', 150, 20, 20),
+  ('Creative Writing', 'Find your voice', '2025-06-21', 120, 30, 21),
+  ('Negotiation', 'Getting better deals', '2025-06-22', 100, 24, 22),
+  ('Excel for Business', 'Data analysis', '2025-06-23', 160, 20, 23),
+  ('Financial Literacy', 'Money matters', '2025-06-24', 180, 25, 24),
+  ('Stress Management', 'Mental wellness', '2025-06-25', 90, 20, 25),
+  ('Time Management', 'Use time wisely', '2025-06-26', 120, 28, 26),
+  ('Leadership Skills', 'Lead with impact', '2025-06-27', 180, 30, 27),
+  ('Project Management', 'Plan and execute', '2025-06-28', 140, 32, 28),
+  ('Networking', 'Grow your circle', '2025-06-29', 100, 30, 29),
+  ('Entrepreneurship', 'From idea to startup', '2025-06-30', 180, 20, 30);
+
+
+-- Insert Reservations (no repetidos user_id + workshop_id)
+INSERT INTO "Reservation" (user_id, workshop_id, reservation_date, status, attended)
+SELECT
+  (random() * 29 + 1)::int,
+  (random() * 29 + 1)::int,
+  NOW() - (random() * interval '60 days'),
+  (ARRAY['PENDING', 'CONFIRMED', 'CANCELLED']::"ReservationStatus"[])[FLOOR(RANDOM()*3)+1],
+  (random() < 0.5)
+FROM generate_series(1, 30);

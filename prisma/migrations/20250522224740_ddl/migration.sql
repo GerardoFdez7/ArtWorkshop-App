@@ -65,3 +65,20 @@ ALTER TABLE "Reservation" ADD CONSTRAINT "Reservation_user_id_fkey" FOREIGN KEY 
 
 -- AddForeignKey
 ALTER TABLE "Reservation" ADD CONSTRAINT "Reservation_workshop_id_fkey" FOREIGN KEY ("workshop_id") REFERENCES "Workshop"("workshop_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Create View
+CREATE OR REPLACE VIEW reservation_summary AS
+SELECT
+  r.reservation_id,
+  u.full_name AS user,
+  u.email,
+  w.title AS workshop,
+  w.date,
+  r.status,
+  r.attended,
+  w.duration_minutes AS duration,
+  i.full_name AS instructor
+FROM "Reservation" r
+JOIN "User" u ON r.user_id = u.user_id
+JOIN "Workshop" w ON r.workshop_id = w.workshop_id
+LEFT JOIN "Instructor" i ON w.instructor_id = i.instructor_id;
