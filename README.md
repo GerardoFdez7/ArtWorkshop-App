@@ -20,12 +20,12 @@ npm install --legacy-peer-deps
 npx prisma migrate dev
 ```
 
+> [!IMPORTANT]
+> To test the project correctly, you must manually execute the `prisma/data.sql` file using pgAdmin or your preferred PostgreSQL database manager. This step is required to populate the database with users, instructors, workshops, and reservations.
+
 3. Start the development server:
 ```bash
 npm run dev
 ```
-
-> [!IMPORTANT]
-> To test the project correctly, you must manually execute the `prisma/data.sql` file using pgAdmin or your preferred PostgreSQL database manager. This step is required to populate the database with users, instructors, workshops, and reservations.
 
 Enjoy exploring and managing art workshops with ArtWorkshop!
