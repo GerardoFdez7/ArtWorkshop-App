@@ -6,14 +6,16 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
   const data = await req.json();
 
-  const { user_id, workshop_id, status } = data;
+  const { user_id, workshop_id, reservation_date, status, attended } = data;
 
   try {
     const reservation = await prisma.reservation.create({
       data: {
         user_id,
         workshop_id,
-        status,
+        reservation_date,
+        status,        
+        attended
       },
     });
 

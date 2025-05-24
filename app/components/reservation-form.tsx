@@ -22,7 +22,8 @@ import {
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import type { Reservation, ReservationStatus } from "@lib/types";
-
+import { useUsers } from "@hooks/useUsers";
+import { useWorkshops } from "@hooks/useWorkshops";
 interface ReservationFormProps {
   reservation: Reservation | null;
   onSubmit: (reservation: Reservation) => void;
@@ -47,6 +48,13 @@ export function ReservationForm({
     reservation ? new Date(reservation.reservation_date) : new Date()
   );
 
+  const { users, isLoading: isLoadingUsers, error: errorUsers } = useUsers();
+  const {
+    workshops,
+    isLoading: isLoadingWorkshops,
+    error: errorWorkshops,
+  } = useWorkshops();
+
   useEffect(() => {
     if (date) {
       setFormData((prev) => ({
@@ -64,8 +72,89 @@ export function ReservationForm({
   return (
     <form onSubmit={handleSubmit}>
       <div className="grid gap-4 py-4">
-        {/* User and Workshop fields are hidden since we're using the API data */}
-        {/* We'll focus on the fields we can edit: date, status, and attended */}
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="userId" className="text-right">
+            User
+          </Label>
+          <Select
+            value={formData.userId.toString()}
+            onValueChange={(value) =>
+              setFormData({ ...formData, userId: Number.parseInt(value) })
+            }
+            disabled={isLoadingUsers || !!errorUsers}
+          >
+            <SelectTrigger className="col-span-3">
+              <SelectValue
+                placeholder={
+                  isLoadingUsers
+                    ? "Loading users..."
+                    : errorUsers
+                    ? "Error loading users"
+                    : "Select a user"
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {errorUsers && (
+                <SelectItem value="error" disabled>
+                  Error: {errorUsers}
+                </SelectItem>
+              )}
+              {!isLoadingUsers &&
+                !errorUsers &&
+                users.map((user) => (
+                  <SelectItem
+                    key={user.user_id}
+                    value={user.user_id.toString()}
+                  >
+                    {user.full_name} ({user.email})
+                  </SelectItem>
+                ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="workshopId" className="text-right">
+            Workshop
+          </Label>
+          <Select
+            value={formData.workshopId.toString()}
+            onValueChange={(value) =>
+              setFormData({ ...formData, workshopId: Number.parseInt(value) })
+            }
+            disabled={isLoadingWorkshops || !!errorWorkshops}
+          >
+            <SelectTrigger className="col-span-3">
+              <SelectValue
+                placeholder={
+                  isLoadingWorkshops
+                    ? "Loading workshops..."
+                    : errorWorkshops
+                    ? "Error loading workshops"
+                    : "Select a workshop"
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {errorWorkshops && (
+                <SelectItem value="error" disabled>
+                  Error: {errorWorkshops}
+                </SelectItem>
+              )}
+              {!isLoadingWorkshops &&
+                !errorWorkshops &&
+                workshops.map((workshop) => (
+                  <SelectItem
+                    key={workshop.workshop_id}
+                    value={workshop.workshop_id.toString()}
+                  >
+                    {workshop.title} ({workshop.duration_minutes} min)
+                  </SelectItem>
+                ))}
+            </SelectContent>
+          </Select>
+        </div>
 
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="date" className="text-right">

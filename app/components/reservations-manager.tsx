@@ -32,9 +32,14 @@ import type {
   Reservation,
   ReservationStatus,
   ReservationData,
+  CreateReservationParams,
+  UpdateReservationParams,
 } from "@lib/types";
 import { useReservations } from "@hooks/useReservations";
 import { useDeleteReservation } from "@hooks/useDeleteReservation";
+import { useCreateReservation } from "@hooks/useCreateReservation";
+import { useUpdateReservation } from "@hooks/useUpdateReservation";
+
 
 export function ReservationsManager() {
   const {
@@ -53,6 +58,10 @@ export function ReservationsManager() {
   const [reservationToDelete, setReservationToDelete] =
     useState<ReservationData | null>(null);
 
+  const { deleteReservation } = useDeleteReservation();
+  const { createReservation} = useCreateReservation();
+  const { updateReservation} = useUpdateReservation();
+
   // Update local state when API data changes
   useEffect(() => {
     if (apiReservations) {
@@ -67,11 +76,27 @@ export function ReservationsManager() {
 
   // Convert ReservationData to Reservation for the form
   const handleEditReservation = (reservation: ReservationData) => {
-    // Create a Reservation object from ReservationData
+    let userId = 0;
+    let workshopId = 0;
+
+    if (typeof reservation.user === 'number') {
+      userId = reservation.user;
+    } else if (typeof reservation.user === 'string') {
+      const parsedUserId = parseInt(reservation.user, 10);
+      if (!isNaN(parsedUserId)) userId = parsedUserId; 
+    }
+
+    if (typeof reservation.workshop === 'number') {
+      workshopId = reservation.workshop;
+    } else if (typeof reservation.workshop === 'string') {
+      const parsedWorkshopId = parseInt(reservation.workshop, 10);
+      if (!isNaN(parsedWorkshopId)) workshopId = parsedWorkshopId;
+    }
+
     const reservationForForm: Reservation = {
       id: reservation.reservation_id,
-      userId: 0, // We don't have this info in ReservationData
-      workshopId: 0, // We don't have this info in ReservationData
+      userId: userId,
+      workshopId: workshopId,
       reservation_date: reservation.date,
       status: reservation.status,
       attended: reservation.attended,
@@ -84,7 +109,6 @@ export function ReservationsManager() {
     setReservationToDelete(reservation);
     setIsDeleteDialogOpen(true);
   };
-  const { deleteReservation } = useDeleteReservation();
 
   const confirmDelete = async () => {
     if (reservationToDelete) {
@@ -96,39 +120,35 @@ export function ReservationsManager() {
     }
   };
 
-  const handleFormSubmit = (reservation: Reservation) => {
-    // In a real app, you would call an API to update or create the reservation
+  const handleFormSubmit = async (reservation: Reservation) => { 
     if (currentReservation) {
       // Update existing reservation
-      setLocalReservations(
-        localReservations.map((r) => {
-          if (r.reservation_id === reservation.id) {
-            // Convert Reservation to ReservationData
-            return {
-              ...r,
-              status: reservation.status,
-              attended: reservation.attended,
-              date: reservation.reservation_date,
-            };
-          }
-          return r;
-        })
-      );
-    } else {
-      // Add new reservation - this is simplified and would need more data in a real app
-      const newReservation: ReservationData = {
-        reservation_id:
-          Math.max(0, ...localReservations.map((r) => r.reservation_id)) + 1,
-        user: "New User", // Placeholder
-        email: "user@example.com", // Placeholder
-        workshop: "New Workshop", // Placeholder
-        date: reservation.reservation_date,
+      const updateParams: UpdateReservationParams = {
+        reservation_id: reservation.id,
+        user_id: reservation.userId,      
+        workshop_id: reservation.workshopId,
+        reservation_date: new Date(reservation.reservation_date).toISOString(), 
         status: reservation.status,
         attended: reservation.attended,
-        duration: 60,
-        instructor: "Instructor",
       };
-      setLocalReservations([...localReservations, newReservation]);
+      const result = await updateReservation(updateParams);
+      if (result) {
+        refreshData();
+      }
+      
+    } else {
+      // Add new reservation using the hook
+      const newReservationParams: CreateReservationParams = {
+        user_id: reservation.userId,
+        workshop_id: reservation.workshopId,
+        date: new Date(reservation.reservation_date),
+        status: reservation.status,
+        attended: reservation.attended,
+      };
+      const result = await createReservation(newReservationParams);
+      if (result) {
+        refreshData();
+      }
     }
     setIsFormOpen(false);
   };
